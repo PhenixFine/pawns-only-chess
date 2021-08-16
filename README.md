@@ -1,5 +1,5 @@
 # Pawns-Only Chess
-Stage 4 of 4 for JetBrains Academy - Kotlin - [Pawns-Only Chess project](https://hyperskill.org/projects/182/stages/922/implement).   
+Stage 1 of 5 for JetBrains Academy - Kotlin - [Pawns-Only Chess project](https://hyperskill.org/projects/182/stages/922/implement).   
 This stage has us print the chessboard with pawns in starting position.
 ## Requirements
 ### Description
