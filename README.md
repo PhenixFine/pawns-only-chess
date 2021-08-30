@@ -1,26 +1,32 @@
 # Pawns-Only Chess
-Stage 2 of 5 for JetBrains Academy - Kotlin - [Pawns-Only Chess project](https://hyperskill.org/projects/182/stages/923/implement).   
-This stage has us ask for the name of the two players and then loop asking each player their move until one of them types exit.
+Stage 3 of 5 for JetBrains Academy - Kotlin - [Pawns-Only Chess project](https://hyperskill.org/projects/182/stages/924/implement).   
+This stage has us add the forward moving of the pawns for the players.
 ## Requirements
 ### Description
-We need to make our program more interactive. First, it will ask players for their names. After that, the software will prompt each player to take turns and make a move. We are going to implement pawn moves later, so, for now, it doesn't matter which move is done at the current stage. However, the input should have the correct format. It should follow the `x0y1` format where `x0` is the coordinates of a pawn that the user wants to move, and `y1` are the coordinates of the final position. For example, at the current stage, the valid moves are `a2a4`, `d4d8`, `a1h8`, and so on. Moves like `j2j4`, `h0h4`, `a2a4a` are deemed to be invalid.
-
-If a player prompts an invalid move, the game should print a warning and ask for another move. Terminate the program after the `exit` command.
+There are several moves that a pawn can make — a forward move and a capture. In this stage, you need to implement forwards moves only. A forward move is a move that propels your pawn by one rank (horizontal line) if the square is not taken by another pawn, or by two ranks if this is the first move of the pawn:    
+    
+![white Forward Moves](https://user-images.githubusercontent.com/64429863/131279557-53d809ee-d140-44e9-bc19-a25ff8c1952f.png)   
+White's turn. All possible forward moves.
+    
+![black Forward Moves](https://user-images.githubusercontent.com/64429863/131279609-d9da0b65-5190-4df6-a5bb-172a642c0452.png)   
+Black's turn. All possible forward moves.    
+    
+If a user inputs an invalid or impossible move, warn them with a message and ask for another move.
 ### Objectives
-After `Pawns-Only Chess` is printed, prompt each player for their names with `First Player's name:` and `Second Player's name:` holders. After that, print the chessboard (see Example 1).
+When a player inputs a valid move, the program should move the pawn and print an updated chessboard (see Example 1).
 
-The program should prompt each player for a move by printing `<first player name>'s turn:` or `<second player name>'s turn:` where `<first player name>` and `<second player name>` are the players' names. If the move follows the correct format, proceed to the next one. If the input doesn't follow the correct format, print `Invalid Input` and ask for another move (see Example 1).
+If a user inputs a move and there is no pawn at the initial square, or it is a pawn of the opposite color, print `No white pawn at <Start position>` or `No black pawn at <Start position>`, where `<Start position>` is the initial square and ask for another move.
 
-If a player inputs `exit`, terminate the program and print `Bye!`
+Print `Invalid Input` and ask to make another move if the player's move is invalid.
 ### Examples
 The greater-than symbol followed by a space (`> `) represents the user input. Note that it's not part of the input.
-#### Example 1:
+#### Example 1: Correct moves
 ```text
 Pawns-Only Chess
 First Player's name:
-> John
+> Jane
 Second Player's name:
-> Amelia
+> Peter
   +---+---+---+---+---+---+---+---+
 8 |   |   |   |   |   |   |   |   |
   +---+---+---+---+---+---+---+---+
@@ -40,29 +46,209 @@ Second Player's name:
   +---+---+---+---+---+---+---+---+
     a   b   c   d   e   f   g   h
 
-John's turn:
+Jane's turn:
 > a2a3
-Amelia's turn:
-> b7c4
-John's turn:
-> h8f2
-Amelia's turn:
-> b2b5
-John's turn:
-> s2s3
+  +---+---+---+---+---+---+---+---+
+8 |   |   |   |   |   |   |   |   |
+  +---+---+---+---+---+---+---+---+
+7 | B | B | B | B | B | B | B | B |
+  +---+---+---+---+---+---+---+---+
+6 |   |   |   |   |   |   |   |   |
+  +---+---+---+---+---+---+---+---+
+5 |   |   |   |   |   |   |   |   |
+  +---+---+---+---+---+---+---+---+
+4 |   |   |   |   |   |   |   |   |
+  +---+---+---+---+---+---+---+---+
+3 | W |   |   |   |   |   |   |   |
+  +---+---+---+---+---+---+---+---+
+2 |   | W | W | W | W | W | W | W |
+  +---+---+---+---+---+---+---+---+
+1 |   |   |   |   |   |   |   |   |
+  +---+---+---+---+---+---+---+---+
+    a   b   c   d   e   f   g   h
+
+Peter's turn:
+> b7b5
+  +---+---+---+---+---+---+---+---+
+8 |   |   |   |   |   |   |   |   |
+  +---+---+---+---+---+---+---+---+
+7 | B |   | B | B | B | B | B | B |
+  +---+---+---+---+---+---+---+---+
+6 |   |   |   |   |   |   |   |   |
+  +---+---+---+---+---+---+---+---+
+5 |   | B |   |   |   |   |   |   |
+  +---+---+---+---+---+---+---+---+
+4 |   |   |   |   |   |   |   |   |
+  +---+---+---+---+---+---+---+---+
+3 | W |   |   |   |   |   |   |   |
+  +---+---+---+---+---+---+---+---+
+2 |   | W | W | W | W | W | W | W |
+  +---+---+---+---+---+---+---+---+
+1 |   |   |   |   |   |   |   |   |
+  +---+---+---+---+---+---+---+---+
+    a   b   c   d   e   f   g   h
+
+Jane's turn:
+> e2e4
+  +---+---+---+---+---+---+---+---+
+8 |   |   |   |   |   |   |   |   |
+  +---+---+---+---+---+---+---+---+
+7 | B |   | B | B | B | B | B | B |
+  +---+---+---+---+---+---+---+---+
+6 |   |   |   |   |   |   |   |   |
+  +---+---+---+---+---+---+---+---+
+5 |   | B |   |   |   |   |   |   |
+  +---+---+---+---+---+---+---+---+
+4 |   |   |   |   | W |   |   |   |
+  +---+---+---+---+---+---+---+---+
+3 | W |   |   |   |   |   |   |   |
+  +---+---+---+---+---+---+---+---+
+2 |   | W | W | W |   | W | W | W |
+  +---+---+---+---+---+---+---+---+
+1 |   |   |   |   |   |   |   |   |
+  +---+---+---+---+---+---+---+---+
+    a   b   c   d   e   f   g   h
+
+Peter's turn:
+> exit
+Bye!
+```
+    
+#### Example 2: Invalid moves
+```text
+Pawns-Only Chess
+First Player's name:
+> Jane
+Second Player's name:
+> Peter
+  +---+---+---+---+---+---+---+---+
+8 |   |   |   |   |   |   |   |   |
+  +---+---+---+---+---+---+---+---+
+7 | B | B | B | B | B | B | B | B |
+  +---+---+---+---+---+---+---+---+
+6 |   |   |   |   |   |   |   |   |
+  +---+---+---+---+---+---+---+---+
+5 |   |   |   |   |   |   |   |   |
+  +---+---+---+---+---+---+---+---+
+4 |   |   |   |   |   |   |   |   |
+  +---+---+---+---+---+---+---+---+
+3 |   |   |   |   |   |   |   |   |
+  +---+---+---+---+---+---+---+---+
+2 | W | W | W | W | W | W | W | W |
+  +---+---+---+---+---+---+---+---+
+1 |   |   |   |   |   |   |   |   |
+  +---+---+---+---+---+---+---+---+
+    a   b   c   d   e   f   g   h
+
+Jane's turn:
+> e2e5
 Invalid Input
-John's turn:
-> d9b2
+Jane's turn:
+> d3d4
+No white pawn at d3
+Jane's turn:
+> e2e3
+  +---+---+---+---+---+---+---+---+
+8 |   |   |   |   |   |   |   |   |
+  +---+---+---+---+---+---+---+---+
+7 | B | B | B | B | B | B | B | B |
+  +---+---+---+---+---+---+---+---+
+6 |   |   |   |   |   |   |   |   |
+  +---+---+---+---+---+---+---+---+
+5 |   |   |   |   |   |   |   |   |
+  +---+---+---+---+---+---+---+---+
+4 |   |   |   |   |   |   |   |   |
+  +---+---+---+---+---+---+---+---+
+3 |   |   |   |   | W |   |   |   |
+  +---+---+---+---+---+---+---+---+
+2 | W | W | W | W |   | W | W | W |
+  +---+---+---+---+---+---+---+---+
+1 |   |   |   |   |   |   |   |   |
+  +---+---+---+---+---+---+---+---+
+    a   b   c   d   e   f   g   h
+
+Peter's turn:
+> a7a4
 Invalid Input
-John's turn:
-> s0f2
+Peter's turn:
+> d6d5
+No black pawn at d6
+Peter's turn:
+> b7b5
+  +---+---+---+---+---+---+---+---+
+8 |   |   |   |   |   |   |   |   |
+  +---+---+---+---+---+---+---+---+
+7 | B |   | B | B | B | B | B | B |
+  +---+---+---+---+---+---+---+---+
+6 |   |   |   |   |   |   |   |   |
+  +---+---+---+---+---+---+---+---+
+5 |   | B |   |   |   |   |   |   |
+  +---+---+---+---+---+---+---+---+
+4 |   |   |   |   |   |   |   |   |
+  +---+---+---+---+---+---+---+---+
+3 |   |   |   |   | W |   |   |   |
+  +---+---+---+---+---+---+---+---+
+2 | W | W | W | W |   | W | W | W |
+  +---+---+---+---+---+---+---+---+
+1 |   |   |   |   |   |   |   |   |
+  +---+---+---+---+---+---+---+---+
+    a   b   c   d   e   f   g   h
+
+Jane's turn:
+> e3e5
 Invalid Input
-John's turn:
-> a2a3b
+Jane's turn:
+> e3d4
 Invalid Input
-John's turn:
-> b2b3
-Amelia's turn:
+Jane's turn:
+> e3e4
+  +---+---+---+---+---+---+---+---+
+8 |   |   |   |   |   |   |   |   |
+  +---+---+---+---+---+---+---+---+
+7 | B |   | B | B | B | B | B | B |
+  +---+---+---+---+---+---+---+---+
+6 |   |   |   |   |   |   |   |   |
+  +---+---+---+---+---+---+---+---+
+5 |   | B |   |   |   |   |   |   |
+  +---+---+---+---+---+---+---+---+
+4 |   |   |   |   | W |   |   |   |
+  +---+---+---+---+---+---+---+---+
+3 |   |   |   |   |   |   |   |   |
+  +---+---+---+---+---+---+---+---+
+2 | W | W | W | W |   | W | W | W |
+  +---+---+---+---+---+---+---+---+
+1 |   |   |   |   |   |   |   |   |
+  +---+---+---+---+---+---+---+---+
+    a   b   c   d   e   f   g   h
+
+Peter's turn:
+> b5b7
+Invalid Input
+Peter's turn:
+> b5a4
+Invalid Input
+Peter's turn:
+> b5b4
+  +---+---+---+---+---+---+---+---+
+8 |   |   |   |   |   |   |   |   |
+  +---+---+---+---+---+---+---+---+
+7 | B |   | B | B | B | B | B | B |
+  +---+---+---+---+---+---+---+---+
+6 |   |   |   |   |   |   |   |   |
+  +---+---+---+---+---+---+---+---+
+5 |   |   |   |   |   |   |   |   |
+  +---+---+---+---+---+---+---+---+
+4 |   | B |   |   | W |   |   |   |
+  +---+---+---+---+---+---+---+---+
+3 |   |   |   |   |   |   |   |   |
+  +---+---+---+---+---+---+---+---+
+2 | W | W | W | W |   | W | W | W |
+  +---+---+---+---+---+---+---+---+
+1 |   |   |   |   |   |   |   |   |
+  +---+---+---+---+---+---+---+---+
+    a   b   c   d   e   f   g   h
+
+Jane's turn:
 > exit
 Bye!
 ```
