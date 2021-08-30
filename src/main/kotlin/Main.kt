@@ -1,20 +1,15 @@
 fun main() {
-    val chessboard = Chessboard()
     val gameName = "Pawns-Only Chess"
     val getName = "Player's name:"
-    val player1 = getString("$gameName\nFirst $getName")
-    val player2 = getString("Second $getName")
-    var currentPlayer = player1
+    val pawnsChess = PawnsChess(getString("$gameName\nFirst $getName"), getString("Second $getName"))
     var command = ""
-    val getCommand = { command = getString("$currentPlayer's turn:"); command }
+    val getCommand = { command = getString("${pawnsChess.currentPlayer()}'s turn:"); command }
 
-    chessboard.printChessboard()
+    pawnsChess.printChessboard()
 
     while (getCommand() != "exit") {
-        if (chessboard.validMove(command)) {
-            currentPlayer = if (currentPlayer == player1) player2 else player1
-        } else {
-            println("Invalid Input")
+        if (pawnsChess.movePawn(command)) {
+            pawnsChess.printChessboard()
         }
     }
     println("Bye!")
