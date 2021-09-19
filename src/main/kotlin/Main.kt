@@ -7,11 +7,10 @@ fun main() {
 
     pawnsChess.printChessboard()
 
-    while (getCommand() != "exit") {
-        if (pawnsChess.movePawn(command)) {
-            pawnsChess.printChessboard()
-        }
+    while (!pawnsChess.gameOver && getCommand() != "exit") {
+        if (pawnsChess.movePawn(command)) pawnsChess.printChessboard()
     }
+    if (pawnsChess.gameOver) println(pawnsChess.gameOverMessage)
     println("Bye!")
 }
 
